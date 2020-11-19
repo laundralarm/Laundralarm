@@ -9,8 +9,8 @@ time.sleep(2)
 number = input("Before we proceed, please provide your phone number: ")
 
 
-account_sid = '' #left blank for privacy
-auth_token = '' #left blank for privacy
+account_sid = 'AC789b7a1c670bad86371d94606b55c77a'
+auth_token = 'e61c249803842be6a2be57fa4024afaa'
 client = Client(account_sid, auth_token)
 
 
@@ -21,12 +21,12 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(channel, GPIO.IN)
 
 last_callback_time = time.time()
-callback_called = False
+
 
 
 def callback(channel):
-        callback_called = True
-        last_callback_time = time.time()
+        global last_callback_time
+        last_callback_time = time.time() #calls the current time 
         print ("Machine is running" )
         print(last_callback_time)
        
@@ -36,14 +36,14 @@ GPIO.add_event_callback(channel, callback)  # assign function to GPIO PIN, Run f
 
 # while loop    
 while True:
-    if time.time() - last_callback_time > 5 and callback_called == True:#If no vibration is detected for 5 sec, print CYCLE FINISHED
-        callback_called = False 
+    if time.time() - last_callback_time > 10:#If current time minus the last callback time is greater than 10, text the user
         message = client.messages \
                 .create(
                      body="Your cycle is done!",
                      from_='+13345083288',
                      to= number
-                 )#Send notification to user 
+                 )#Send notification to user
+        GPIO.remove_event_detect(channel)
         break 
         exit()
         
