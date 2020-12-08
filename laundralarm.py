@@ -9,10 +9,10 @@ time.sleep(2)
 number = input("Before we proceed, please provide your phone number: ")
 
 
-account_sid = 'AC789b7a1c670bad86371d94606b55c77a'
-auth_token = 'e61c249803842be6a2be57fa4024afaa'
+account_sid = ''
+auth_token = ''
 client = Client(account_sid, auth_token)
-
+time.sleep(1140) #Washer time sleep to 1140 seconds - equivalent to 19min. Last 5 minutes of the washer is the highest
 
 print("System is starting.....")
 #GPIO SETUP
@@ -36,7 +36,7 @@ GPIO.add_event_callback(channel, callback)  # assign function to GPIO PIN, Run f
 
 # while loop    
 while True:
-    if time.time() - last_callback_time > 10:#If current time minus the last callback time is greater than 10, text the user
+    if time.time() - last_callback_time > 50:#If current time minus the last callback time is greater than 10, text the user #40 for washer
         message = client.messages \
                 .create(
                      body="Your cycle is done!",
